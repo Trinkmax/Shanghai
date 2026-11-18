@@ -53,7 +53,7 @@ export function GestorRanking({ fijados, porVentas }: { fijados: ItemRanking[]; 
             {lista.map((x, i) => (
               <li key={x.id} className="flex items-center gap-3 px-3 py-2.5 sm:px-4">
                 <span className="rotulo tabular w-8 text-center text-lg text-marca-400">{i + 1}</span>
-                <ImagenProducto ruta={x.imagen} alt="" className="size-11 shrink-0 rounded-lg border border-aluminio" />
+                <ImagenProducto ruta={x.imagen} alt="" tam="xs" className="size-11 shrink-0 rounded-lg border border-aluminio" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[0.92rem] font-medium text-tinta">{x.nombre}</p>
                   <p className="tabular text-[0.76rem] text-tinta-3">
@@ -107,7 +107,7 @@ export function GestorRanking({ fijados, porVentas }: { fijados: ItemRanking[]; 
                 .filter((p) => !ids.has(p.id))
                 .map((p) => (
                   <li key={p.id} className="flex items-center gap-3 px-4 py-2.5">
-                    <ImagenProducto ruta={p.imagen} alt="" className="size-10 shrink-0 rounded-lg border border-aluminio" />
+                    <ImagenProducto ruta={p.imagen} alt="" tam="xs" className="size-10 shrink-0 rounded-lg border border-aluminio" />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-[0.88rem] text-tinta">{p.nombre}</span>
                       <span className="tabular text-[0.75rem] text-tinta-3">{formatNumero(p.vendidos)} vendidos</span>

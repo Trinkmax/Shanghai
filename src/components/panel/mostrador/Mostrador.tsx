@@ -182,7 +182,7 @@ export function Mostrador() {
                         onClick={() => agregar(r.item)}
                         className={cn("flex w-full items-center gap-3 px-3 py-2 text-left", i === sel && "bg-marca-50", agotado && "opacity-60")}
                       >
-                        <ImagenProducto ruta={r.item.m} alt="" className="size-11 shrink-0 rounded-lg border border-aluminio" />
+                        <ImagenProducto ruta={r.item.m} alt="" tam="xs" className="size-11 shrink-0 rounded-lg border border-aluminio" />
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-[0.93rem] text-tinta">{r.item.n}</span>
                           <span className="tabular text-[0.76rem] text-tinta-3">
@@ -219,7 +219,7 @@ export function Mostrador() {
             <ul className="divide-y divide-aluminio">
               {ticket.map((r) => (
                 <li key={r.item.i} className="flex items-center gap-3 px-4 py-2.5 sm:px-5">
-                  <ImagenProducto ruta={r.item.m} alt="" className="size-12 shrink-0 rounded-lg border border-aluminio" />
+                  <ImagenProducto ruta={r.item.m} alt="" tam="xs" className="size-12 shrink-0 rounded-lg border border-aluminio" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[0.92rem] font-medium text-tinta">{r.item.n}</p>
                     <p className="tabular text-[0.76rem] text-tinta-3">

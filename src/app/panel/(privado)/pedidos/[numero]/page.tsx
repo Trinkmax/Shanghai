@@ -99,7 +99,7 @@ export default async function DetallePedido({ params }: { params: Promise<{ nume
             <ul className="divide-y divide-aluminio">
               {(items.data ?? []).map((it) => (
                 <li key={it.id} className="flex items-center gap-3 px-4 py-3 sm:px-5">
-                  <ImagenProducto ruta={it.imagen} alt="" className="size-14 shrink-0 rounded-xl border border-aluminio" />
+                  <ImagenProducto ruta={it.imagen} alt="" tam="xs" className="size-14 shrink-0 rounded-xl border border-aluminio" />
                   <div className="min-w-0 flex-1">
                     {it.producto_id ? (
                       <Link href={`/panel/productos/${it.producto_id}`} className="line-clamp-2 text-[0.93rem] font-medium text-tinta hover:underline">

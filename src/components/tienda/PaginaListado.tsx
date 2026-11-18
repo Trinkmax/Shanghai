@@ -4,7 +4,7 @@ import { Isotipo } from "@/components/marca/Isotipo";
 import { FichaRubro } from "@/components/ui/IconoRubro";
 import { listarProductos, type FiltroCatalogo } from "@/lib/datos/catalogo";
 import { formatNumero } from "@/lib/format";
-import { acrilico, type Categoria } from "@/lib/tienda";
+import type { Categoria } from "@/lib/tienda";
 import { cn } from "@/lib/utils";
 import { BarraFiltros, ListadoProductos } from "./Listado";
 import { Contenedor } from "./TituloSeccion";
@@ -96,17 +96,15 @@ export async function PaginaListado({
   vacio?: React.ReactNode;
 }) {
   const lista = await listarProductos(filtro);
-  const a = rubro ? acrilico(rubro.color) : null;
 
   const encabezado = (
     <header
       className={cn(
-        "relative overflow-hidden rounded-[1.5rem] px-5 py-7 sm:px-8 sm:py-10",
+        "relative overflow-hidden",
+        tono === "normal" ? "pb-2 pt-1" : "rounded-[1.5rem] px-5 py-7 sm:px-8 sm:py-10",
         tono === "ambar" && "bg-[linear-gradient(165deg,#ffd03d_0%,#ffc21a_45%,#f5ad00_100%)]",
         tono === "marca" && "cartel",
-        tono === "normal" && !a && "border border-aluminio bg-white",
       )}
-      style={a ? { background: `linear-gradient(135deg, ${a.suave} 0%, #ffffff 70%)`, border: "1px solid var(--color-aluminio)" } : undefined}
     >
       {tono === "marca" && <span className="cartel-luz" />}
       <Migas
@@ -114,7 +112,7 @@ export async function PaginaListado({
         className={cn(tono === "ambar" && "text-ambar-tinta/70 [&_a:hover]:text-ambar-tinta", tono === "marca" && "text-marca-200 [&_a:hover]:text-white [&_[aria-current]]:text-white")}
       />
       <div className="mt-4 flex items-center gap-4">
-        {rubro && <FichaRubro icono={rubro.icono} color={rubro.color} tam="lg" />}
+        {rubro && <FichaRubro icono={rubro.icono} tam="lg" />}
         <div className="min-w-0">
           <h1
             className={cn(
@@ -195,7 +193,7 @@ export function LateralRubros({ categorias, activo }: { categorias: Categoria[];
           aria-current={activo === c.slug ? "page" : undefined}
           className="flex items-center gap-2.5 rounded-xl px-2 py-1.5 text-[0.88rem] text-tinta-2 hover:bg-vidrio hover:text-tinta aria-[current=page]:bg-marca-50 aria-[current=page]:font-semibold aria-[current=page]:text-marca-800"
         >
-          <FichaRubro icono={c.icono} color={c.color} tam="sm" className="size-7 rounded-lg [&_svg]:size-3.5" />
+          <FichaRubro icono={c.icono} tam="sm" />
           <span className="flex-1 truncate">{c.nombre}</span>
           <span className="tabular text-xs text-tinta-3">{c.cantidad}</span>
         </Link>

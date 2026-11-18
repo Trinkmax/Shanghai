@@ -49,7 +49,6 @@ import {
   Snowflake,
   type LucideIcon,
 } from "lucide-react";
-import { acrilico } from "@/lib/tienda";
 import { cn } from "@/lib/utils";
 
 /** Íconos disponibles para los rubros (importados uno por uno: nada de cargar toda la librería). */
@@ -65,29 +64,20 @@ export function IconoRubro({ icono, className }: { icono: string; className?: st
   return <Icono className={className} strokeWidth={1.9} aria-hidden="true" />;
 }
 
-/** Ficha de acrílico de color con el ícono del rubro. */
+/** Ícono del rubro, sin fondo: el color de la marca y nada más. (`color` se mantiene por compatibilidad.) */
 export function FichaRubro({
   icono,
-  color,
   className,
   tam = "md",
 }: {
   icono: string;
-  color: string;
+  color?: string;
   className?: string;
   tam?: "sm" | "md" | "lg";
 }) {
-  const a = acrilico(color);
-  const t = { sm: "size-8 rounded-lg [&_svg]:size-4", md: "size-11 rounded-xl [&_svg]:size-5", lg: "size-14 rounded-2xl [&_svg]:size-7" }[tam];
+  const t = { sm: "size-6 [&_svg]:size-[18px]", md: "size-8 [&_svg]:size-6", lg: "size-12 [&_svg]:size-9" }[tam];
   return (
-    <span
-      className={cn("relative grid shrink-0 place-items-center overflow-hidden", t, className)}
-      style={{
-        background: `linear-gradient(160deg, color-mix(in oklab, ${a.fondo} 82%, white) 0%, ${a.fondo} 55%, color-mix(in oklab, ${a.fondo} 86%, black) 100%)`,
-        color: a.texto,
-        boxShadow: `0 1px 0 rgb(255 255 255 / 0.35) inset, 0 -1px 0 rgb(0 0 0 / 0.18) inset, 0 6px 14px -8px ${a.fondo}`,
-      }}
-    >
+    <span className={cn("grid shrink-0 place-items-center text-marca-600", t, className)}>
       <IconoRubro icono={icono} />
     </span>
   );

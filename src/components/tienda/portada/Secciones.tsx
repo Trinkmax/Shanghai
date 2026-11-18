@@ -1,4 +1,4 @@
-import { Banknote, CreditCard, Landmark, MapPin, MessageCircle, Navigation, Store, Truck } from "lucide-react";
+import { MapPin, MessageCircle, Navigation } from "lucide-react";
 import Link from "next/link";
 import { Isotipo } from "@/components/marca/Isotipo";
 import { FichaRubro } from "@/components/ui/IconoRubro";
@@ -6,35 +6,26 @@ import { formatARS, formatNumero, formatTelefono, linkWhatsApp } from "@/lib/for
 import { DIAS_CORTOS, type Categoria, type ConfigTienda } from "@/lib/tienda";
 import { Contenedor, TituloSeccion } from "../TituloSeccion";
 
-/** Calcos de la puerta: medios de pago y entrega reales de la configuración. */
+/** Medios de pago y entrega reales de la configuración, como texto simple. */
 export function Puerta({ config }: { config: ConfigTienda }) {
-  const calcos: { icono: React.ReactNode; texto: string; detalle?: string }[] = [];
-  if (config.mp_conectado && config.pago_mercadopago)
-    calcos.push({ icono: <CreditCard className="size-5 text-[#009ee3]" />, texto: "Mercado Pago", detalle: "Tarjetas, débito y dinero en cuenta" });
+  const datos: { texto: string; detalle: string }[] = [];
+  if (config.mp_conectado && config.pago_mercadopago) datos.push({ texto: "Mercado Pago", detalle: "Tarjetas, débito y dinero en cuenta" });
   if (config.pago_transferencia)
-    calcos.push({
-      icono: <Landmark className="size-5 text-marca-600" />,
+    datos.push({
       texto: "Transferencia",
       detalle: config.descuento_transferencia > 0 ? `${config.descuento_transferencia}% de descuento` : "Bancaria o billetera virtual",
     });
-  if (config.pago_efectivo) calcos.push({ icono: <Banknote className="size-5 text-verde" />, texto: "Efectivo", detalle: "Pagás al retirar" });
-  calcos.push({ icono: <Store className="size-5 text-marca-600" />, texto: "Retiro en el local", detalle: config.direccion });
-  if (config.envios.some((e) => e.id !== "retiro" && e.activo))
-    calcos.push({ icono: <Truck className="size-5 text-marca-600" />, texto: "Envíos", detalle: "Córdoba y el interior, a coordinar" });
+  if (config.pago_efectivo) datos.push({ texto: "Efectivo", detalle: "Pagás al retirar" });
+  datos.push({ texto: "Retiro en el local", detalle: config.direccion });
+  if (config.envios.some((e) => e.id !== "retiro" && e.activo)) datos.push({ texto: "Envíos", detalle: "Córdoba y el interior, a coordinar" });
 
   return (
-    <Contenedor className="mt-4 sm:mt-5">
-      <ul className="sin-scrollbar -mx-3 flex gap-2 overflow-x-auto px-3 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0" aria-label="Medios de pago y entrega">
-        {calcos.map((c) => (
-          <li
-            key={c.texto}
-            className="flex shrink-0 items-center gap-2.5 rounded-2xl border border-aluminio bg-white py-2 pl-2.5 pr-4 shadow-[0_1px_0_rgb(22_20_44/0.03)]"
-          >
-            <span className="grid size-9 place-items-center rounded-xl bg-vidrio">{c.icono}</span>
-            <span className="leading-tight">
-              <span className="block text-[0.88rem] font-semibold text-tinta">{c.texto}</span>
-              {c.detalle && <span className="block text-[0.75rem] text-tinta-3">{c.detalle}</span>}
-            </span>
+    <Contenedor className="mt-6 sm:mt-8">
+      <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-10" aria-label="Medios de pago y entrega">
+        {datos.map((d) => (
+          <li key={d.texto} className="leading-tight">
+            <span className="block text-[0.92rem] font-semibold text-tinta">{d.texto}</span>
+            <span className="mt-0.5 block text-[0.8rem] text-tinta-3">{d.detalle}</span>
           </li>
         ))}
       </ul>
@@ -54,16 +45,15 @@ export function GrillaRubros({ categorias }: { categorias: Categoria[] }) {
         accion={`Ver los ${categorias.length}`}
         id="titulo-rubros"
       />
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" aria-labelledby="titulo-rubros">
+      <ul className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-6 lg:gap-y-9" aria-labelledby="titulo-rubros">
         {visibles.map((c) => (
           <li key={c.id} className="max-sm:[&:nth-child(n+9)]:hidden">
-            <Link
-              href={`/rubro/${c.slug}`}
-              className="presionable group flex h-full items-center gap-3 rounded-2xl border border-aluminio bg-white p-3 transition-[border-color,box-shadow] duration-200 hover:border-marca-300 hover:shadow-[var(--shadow-pane)] lg:flex-col lg:items-start lg:gap-4 lg:p-4"
-            >
-              <FichaRubro icono={c.icono} color={c.color} tam="md" className="transition-transform duration-300 ease-out motion-safe:group-hover:-rotate-3" />
-              <span className="min-w-0">
-                <span className="line-clamp-2 hyphens-auto break-words text-[0.9rem] font-semibold leading-tight text-tinta">{c.nombre}</span>
+            <Link href={`/rubro/${c.slug}`} className="group flex items-start gap-3">
+              <FichaRubro icono={c.icono} tam="md" className="transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5" />
+              <span className="min-w-0 pt-0.5">
+                <span className="line-clamp-2 hyphens-auto break-words text-[0.95rem] font-semibold leading-tight text-tinta decoration-marca-300 underline-offset-[0.25em] group-hover:text-marca-700 group-hover:underline">
+                  {c.nombre}
+                </span>
                 <span className="tabular mt-0.5 block text-[0.75rem] text-tinta-3">{formatNumero(c.cantidad)} productos</span>
               </span>
             </Link>

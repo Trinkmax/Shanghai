@@ -28,7 +28,7 @@ function FilaProducto({ item, consulta, onIr }: { item: ItemIndice; consulta: st
       onSelect={onIr}
       className="group flex cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 aria-selected:bg-vidrio"
     >
-      <ImagenProducto ruta={item.m} alt="" className="size-12 shrink-0 rounded-lg border border-aluminio" />
+      <ImagenProducto ruta={item.m} alt="" tam="xs" className="size-12 shrink-0 rounded-lg border border-aluminio" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-[0.93rem] text-tinta">
           {resaltar(item.n, consulta).map((t, i) =>

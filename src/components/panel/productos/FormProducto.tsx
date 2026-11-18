@@ -10,7 +10,7 @@ import { ImagenProducto } from "@/components/ui/ImagenProducto";
 import { Precio } from "@/components/ui/Precio";
 import { eliminarProducto, guardarProducto, type DatosProducto } from "@/lib/actions/productos";
 import { TZ_AR } from "@/lib/format";
-import { rutaMiniatura } from "@/lib/imagenes";
+import { esDeStorage, rutaMiniatura } from "@/lib/imagenes";
 import { createClient } from "@/lib/supabase/client";
 import { cn, slugify } from "@/lib/utils";
 import { useConfirmar } from "../Dialogo";
@@ -102,7 +102,7 @@ export function FormProducto({ inicial, rubros }: { inicial: ProductoEditable; r
         return;
       }
       // Fotos que se sacaron: se borran del bucket recién al guardar.
-      const quitadas = inicial.imagenes.filter((x) => !p.imagenes.includes(x));
+      const quitadas = inicial.imagenes.filter((x) => !p.imagenes.includes(x) && esDeStorage(x));
       if (quitadas.length) void createClient().storage.from("shangai").remove(quitadas.flatMap((x) => [x, rutaMiniatura(x)]));
       setSucio(false);
       toast.success(p.id ? "Cambios guardados" : "Producto creado", { description: "Ya se ve así en la tienda." });

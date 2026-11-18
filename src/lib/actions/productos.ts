@@ -3,7 +3,7 @@
 import { refresh, updateTag } from "next/cache";
 import { z } from "zod";
 import { TAGS } from "@/lib/datos/catalogo";
-import { rutaMiniatura } from "@/lib/imagenes";
+import { esDeStorage, rutaMiniatura } from "@/lib/imagenes";
 import { perfilParaAccion } from "@/lib/panel/sesion";
 import { primerError } from "@/lib/panel/validar";
 import { createClient } from "@/lib/supabase/server";
@@ -171,7 +171,7 @@ export async function eliminarProducto(id: string): Promise<ActionResult> {
   const { data: prod } = await supabase.from("productos").select("imagenes").eq("id", id).single();
   const { error } = await supabase.from("productos").delete().eq("id", id);
   if (error) return fallo(error);
-  const archivos = (prod?.imagenes ?? []).flatMap((r) => [r, rutaMiniatura(r)]);
+  const archivos = (prod?.imagenes ?? []).filter(esDeStorage).flatMap((r) => [r, rutaMiniatura(r)]);
   if (archivos.length) await supabase.storage.from("shangai").remove(archivos);
   updateTag(TAGS.catalogo);
   return ok(undefined);

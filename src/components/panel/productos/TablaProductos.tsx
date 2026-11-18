@@ -179,7 +179,7 @@ export function TablaProductos({ filas, rubros, editable }: { filas: FilaProduct
               )}
             >
               {editable && <Casilla marcada={seleccion.has(f.id)} onCambiar={() => alternar(f.id)} etiqueta={`Seleccionar ${f.nombre}`} />}
-              <ImagenProducto ruta={f.imagenes[0]} alt="" className={cn("size-12 shrink-0 rounded-lg border border-aluminio", !f.activo && "opacity-50")} />
+              <ImagenProducto ruta={f.imagenes[0]} alt="" tam="xs" className={cn("size-12 shrink-0 rounded-lg border border-aluminio", !f.activo && "opacity-50")} />
               <div className="min-w-0 flex-1 basis-[calc(100%-8rem)] md:basis-auto">
                 <Link href={`/panel/productos/${f.id}`} className={cn("line-clamp-2 text-[0.92rem] font-medium leading-snug text-tinta hover:underline", !f.activo && "text-tinta-2")}>
                   {f.nombre}

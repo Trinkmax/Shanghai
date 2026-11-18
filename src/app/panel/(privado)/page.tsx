@@ -127,7 +127,7 @@ export default async function Resumen({ searchParams }: { searchParams: Promise<
                 {stockBajo.data.map((p) => (
                   <li key={p.id}>
                     <Link href={`/panel/productos/${p.id}`} className="flex items-center gap-2.5 text-[0.88rem] hover:underline">
-                      <ImagenProducto ruta={p.imagenes[0]} alt="" className="size-8 shrink-0 rounded-lg border border-aluminio" />
+                      <ImagenProducto ruta={p.imagenes[0]} alt="" tam="xs" className="size-8 shrink-0 rounded-lg border border-aluminio" />
                       <span className="min-w-0 flex-1 truncate text-tinta">{p.nombre}</span>
                       <span className={cn("tabular font-bold", p.stock === 0 ? "text-rojo" : "text-ambar-tinta")}>
                         {p.stock === 0 ? "Agotado" : `${p.stock} u.`}
@@ -150,7 +150,7 @@ export default async function Resumen({ searchParams }: { searchParams: Promise<
               {d.top.map((t, i) => (
                 <li key={`${t.producto_id}-${i}`} className="flex items-center gap-3 px-4 py-2.5 sm:px-5">
                   <span className="rotulo tabular w-6 text-center text-[0.95rem] text-marca-300">{i + 1}</span>
-                  <ImagenProducto ruta={t.imagen} alt="" className="size-10 shrink-0 rounded-lg border border-aluminio" />
+                  <ImagenProducto ruta={t.imagen} alt="" tam="xs" className="size-10 shrink-0 rounded-lg border border-aluminio" />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[0.9rem] font-medium text-tinta">{t.nombre}</span>
                     <span className="tabular text-[0.75rem] text-tinta-3">Cód. {t.codigo}</span>

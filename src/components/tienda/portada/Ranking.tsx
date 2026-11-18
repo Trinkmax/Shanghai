@@ -41,7 +41,7 @@ export function Ranking({ productos }: { productos: ProductoVista[] }) {
             <li key={p.id} className="flex items-center gap-3 px-3 py-2.5 sm:px-4">
               <span className="rotulo tabular w-7 shrink-0 text-center text-lg text-marca-300">{i + 4}</span>
               <Link href={`/producto/${p.slug}`} className="flex min-w-0 flex-1 items-center gap-3">
-                <ImagenProducto ruta={p.imagenes[0]} alt="" className="size-14 shrink-0 rounded-xl border border-aluminio" />
+                <ImagenProducto ruta={p.imagenes[0]} alt="" tam="xs" className="size-14 shrink-0 rounded-xl border border-aluminio" />
                 <span className="min-w-0">
                   <span className="line-clamp-2 text-[0.9rem] font-medium leading-snug text-tinta hover:underline">{p.nombre}</span>
                   <span className="tabular mt-0.5 block text-[0.72rem] text-tinta-3">Cód. {p.codigo}</span>

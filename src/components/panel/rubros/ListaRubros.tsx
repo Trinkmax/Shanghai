@@ -8,7 +8,6 @@ import { Boton } from "@/components/ui/Boton";
 import { FichaRubro, ICONOS_RUBRO, IconoRubro } from "@/components/ui/IconoRubro";
 import { eliminarRubro, guardarRubro, reordenarRubros } from "@/lib/actions/rubros";
 import { formatNumero } from "@/lib/format";
-import { ACRILICOS } from "@/lib/tienda";
 import { cn } from "@/lib/utils";
 import { Dialogo, useConfirmar } from "../Dialogo";
 import { AreaTexto, Campo, Interruptor } from "../formulario";
@@ -92,23 +91,6 @@ function EditorRubro({ abierto, onCerrar, inicial }: { abierto: boolean; onCerra
               >
                 <IconoRubro icono={k} />
               </button>
-            ))}
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="mb-2 text-[0.88rem] font-medium text-tinta">Color del letrero</legend>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(ACRILICOS).map(([k, a]) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => setR({ ...r, color: k })}
-                aria-pressed={r.color === k}
-                aria-label={k}
-                title={k}
-                className="size-9 rounded-xl ring-offset-2 transition-shadow aria-pressed:ring-2 aria-pressed:ring-tinta"
-                style={{ background: a.fondo }}
-              />
             ))}
           </div>
         </fieldset>

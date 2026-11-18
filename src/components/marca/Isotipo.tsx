@@ -39,3 +39,17 @@ export function Logotipo({
     </span>
   );
 }
+
+/** Logo grande (vidriera): caja + "SHANGAI / CENTER" en dos líneas + bajada. El tamaño lo da el font-size del contenedor. */
+export function LogoGrande({ className }: { className?: string }) {
+  return (
+    <span className={cn("flex items-center gap-[0.28em]", className)} aria-hidden="true">
+      <Isotipo className="h-[2.05em] w-[2.05em] text-marca-500" grosor={9.5} />
+      <span className="flex flex-col">
+        <span className="rotulo leading-[0.92] text-marca-700">Shangai</span>
+        <span className="rotulo leading-[0.92] text-marca-500">Center</span>
+        <span className="rotulo-medio mt-[0.45em] text-[0.2em] tracking-[0.3em] text-tinta-2">Importador mayorista</span>
+      </span>
+    </span>
+  );
+}

@@ -235,7 +235,7 @@ export function Comprar({ p }: { p: ProductoVista }) {
                 transition={{ type: "spring", duration: 0.4, bounce: 0.12 }}
                 className="fixed inset-x-2 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 flex items-center gap-3 rounded-2xl border border-aluminio bg-white/95 p-2 pl-2.5 shadow-[var(--shadow-flotante)] backdrop-blur-md lg:hidden"
               >
-                <ImagenProducto ruta={p.imagenes[0]} alt="" className="size-11 shrink-0 rounded-xl border border-aluminio" />
+                <ImagenProducto ruta={p.imagenes[0]} alt="" tam="xs" className="size-11 shrink-0 rounded-xl border border-aluminio" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[0.82rem] text-tinta-2">{p.nombre}</p>
                   <p className="tabular text-[0.95rem] font-bold text-tinta">

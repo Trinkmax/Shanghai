@@ -56,6 +56,14 @@ type PedidoCreado = {
   items: ItemPedido[];
 };
 
+/** Foto chica del ítem para el checkout de Mercado Pago (estáticas en el sitio, o en el bucket). */
+function fotoItem(imagen: string | null, origen: string | null) {
+  if (!imagen) return null;
+  const chica = imagen.replace(/\.webp$/, "-sm.webp");
+  if (imagen.startsWith("/")) return origen && origen.startsWith("https://") ? origen + chica : null;
+  return STORAGE_URL + chica;
+}
+
 async function crearPreferencia(p: PedidoCreado, origen: string | null): Promise<{ id: string; init_point: string }> {
   const { data: cred, error } = await admin.rpc("mp_credenciales");
   const token = (cred as { access_token?: string } | null)?.access_token;
@@ -68,7 +76,7 @@ async function crearPreferencia(p: PedidoCreado, origen: string | null): Promise
     quantity: i.cantidad,
     unit_price: Number(i.precio_unitario),
     currency_id: "ARS",
-    ...(i.imagen ? { picture_url: STORAGE_URL + i.imagen.replace(/\.webp$/, "-sm.webp") } : {}),
+    ...(fotoItem(i.imagen, origen) ? { picture_url: fotoItem(i.imagen, origen)! } : {}),
   }));
   if (p.costo_envio && Number(p.costo_envio) > 0) {
     items.push({ id: "envio", title: "Envío", quantity: 1, unit_price: Number(p.costo_envio), currency_id: "ARS" });

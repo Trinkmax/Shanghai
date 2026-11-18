@@ -46,7 +46,7 @@ export function Galeria({ imagenes, nombre, children }: { imagenes: string[]; no
               )}
               aria-label={`Foto ${i + 1}`}
             >
-              <ImagenProducto ruta={f} alt="" className="aspect-square w-full p-1" />
+              <ImagenProducto ruta={f} alt="" tam="xs" className="aspect-square w-full p-1" />
             </button>
           ))}
         </div>

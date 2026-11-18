@@ -12,7 +12,7 @@ import { Contenedor, TituloSeccion } from "@/components/tienda/TituloSeccion";
 import { FichaRubro } from "@/components/ui/IconoRubro";
 import { obtenerConfig, obtenerProducto, obtenerRelacionados, obtenerSlugsPopulares } from "@/lib/datos/catalogo";
 import { formatARS } from "@/lib/format";
-import { urlImagen } from "@/lib/imagenes";
+import { urlImagenAbsoluta } from "@/lib/imagenes";
 import { SITIO } from "@/lib/sitio";
 
 type Params = Promise<{ slug: string }>;
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug } = await params;
   const p = await obtenerProducto(slug);
   if (!p) return { title: "Producto no encontrado" };
-  const img = urlImagen(p.imagenes[0], "lg");
+  const img = urlImagenAbsoluta(p.imagenes[0], "lg", SITIO);
   return {
     title: p.nombre,
     description: `${p.nombre} (Cód. ${p.codigo}) a ${formatARS(p.precio_final)} por unidad, precio mayorista en Shangai Center, Córdoba.`,
@@ -63,7 +63,7 @@ async function Ficha({ params }: { params: Params }) {
     "@type": "Product",
     name: p.nombre,
     sku: p.codigo,
-    image: p.imagenes.map((i) => urlImagen(i, "lg")),
+    image: p.imagenes.map((i) => urlImagenAbsoluta(i, "lg", SITIO)),
     brand: { "@type": "Brand", name: config.nombre_tienda },
     category: p.categoria?.nombre,
     offers: {

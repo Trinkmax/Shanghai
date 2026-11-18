@@ -73,7 +73,7 @@ export function SelectorProductos({
               const ya = elegidos?.has(item.i);
               return (
                 <li key={item.i} className="flex items-center gap-3 px-3 py-2">
-                  <ImagenProducto ruta={item.m} alt="" className="size-10 shrink-0 rounded-lg border border-aluminio" />
+                  <ImagenProducto ruta={item.m} alt="" tam="xs" className="size-10 shrink-0 rounded-lg border border-aluminio" />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[0.9rem] text-tinta">{item.n}</span>
                     <span className="tabular text-[0.75rem] text-tinta-3">

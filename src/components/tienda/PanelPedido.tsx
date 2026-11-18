@@ -42,7 +42,7 @@ function Renglon({ it }: { it: ItemCarrito }) {
       className="flex gap-3 py-3.5"
     >
       <Link href={`/producto/${it.slug}`} onClick={cerrar} className="shrink-0 overflow-hidden rounded-xl border border-aluminio">
-        <ImagenProducto ruta={it.imagen} alt={it.nombre} className="size-[72px]" />
+        <ImagenProducto ruta={it.imagen} alt={it.nombre} tam="xs" className="size-[72px]" />
       </Link>
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">

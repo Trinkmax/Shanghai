@@ -96,7 +96,7 @@ export function GestorOfertas({ ofertas }: { ofertas: ProductoEnOferta[] }) {
               const pctO = o.precio_oferta ? Math.round((1 - o.precio_oferta / o.precio) * 100) : 0;
               return (
                 <li key={o.id} className={cn("flex items-center gap-3 px-4 py-2.5 sm:px-5", o.vencida && "bg-vidrio/60")}>
-                  <ImagenProducto ruta={o.imagenes[0]} alt="" className="size-12 shrink-0 rounded-lg border border-aluminio" />
+                  <ImagenProducto ruta={o.imagenes[0]} alt="" tam="xs" className="size-12 shrink-0 rounded-lg border border-aluminio" />
                   <div className="min-w-0 flex-1">
                     <Link href={`/panel/productos/${o.id}`} className="line-clamp-1 text-[0.92rem] font-medium text-tinta hover:underline">
                       {o.nombre}

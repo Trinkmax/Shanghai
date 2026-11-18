@@ -343,7 +343,7 @@ export function Checkout() {
           {items.map((i) => (
             <li key={i.id} className="flex items-center gap-3 py-3">
               <span className="relative shrink-0">
-                <ImagenProducto ruta={i.imagen} alt="" className="size-12 rounded-lg border border-aluminio" />
+                <ImagenProducto ruta={i.imagen} alt="" tam="xs" className="size-12 rounded-lg border border-aluminio" />
                 <span className="tabular absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-marca-700 px-1 text-[0.68rem] font-bold text-white">
                   {i.cantidad}
                 </span>

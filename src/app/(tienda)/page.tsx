@@ -39,7 +39,6 @@ export default async function Inicio() {
     obtenerNovedades(10),
     obtenerBanners(),
   ]);
-  const total = categorias.reduce((t, c) => t + c.cantidad, 0);
   const exhibidor = destacados.length >= 6 ? destacados : [...destacados, ...novedades].slice(0, 6);
   const carteles = await Promise.all(
     banners.map(async (b) => ({ ...b, fotos: await fotosDeBanner(b.cta_href, categorias, destacados) })),
@@ -47,7 +46,7 @@ export default async function Inicio() {
 
   return (
     <>
-      <Vidriera config={config} categorias={categorias} destacados={exhibidor} total={total} />
+      <Vidriera config={config} categorias={categorias} destacados={exhibidor} />
       <Puerta config={config} />
 
       {ofertas.length > 0 && (
