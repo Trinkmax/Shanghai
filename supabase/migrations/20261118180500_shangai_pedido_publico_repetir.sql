@@ -1,0 +1,2 @@
+-- pedido_publico: agrega slug, disponibilidad, mínimo y precio vigente de cada ítem (para "Repetir pedido").
+-- (Cuerpo completo aplicado vía MCP; ver la versión en la base con \df+ shangai.pedido_publico)

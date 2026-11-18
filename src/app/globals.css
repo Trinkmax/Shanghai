@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   Shangai Center · "Vidriera luminosa"
+   Cartel retroiluminado índigo + letras de vinilo sobre vidrio + perfiles de
+   aluminio. El índigo es el del logo (#372A84 / #5C63AA); el ámbar es el vinilo
+   de oferta. Superficie de día: vidrio claro y frío.
+   ========================================================================== */
+
+@theme {
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-marca-950: #140e38;
+  --color-marca-900: #1f1857;
+  --color-marca-800: #2b226e;
+  --color-marca-700: #372a84;
+  --color-marca-600: #463f9b;
+  --color-marca-500: #5c63aa;
+  --color-marca-400: #7d83c3;
+  --color-marca-300: #a4a9da;
+  --color-marca-200: #cacded;
+  --color-marca-100: #e5e6f7;
+  --color-marca-50: #f3f3fc;
+
+  --color-tinta: #16142c;
+  --color-tinta-2: #45435e;
+  --color-tinta-3: #615f7b;
+
+  --color-vidrio: #f3f4f8;
+  --color-vidrio-2: #e9ebf2;
+  --color-aluminio: #d8dbe5;
+  --color-aluminio-2: #b5b9c9;
+
+  --color-ambar: #ffc21a;
+  --color-ambar-2: #f2ae00;
+  --color-ambar-tinta: #3a2a00;
+  --color-rojo: #cf3434;
+  --color-verde: #13804a;
+  --color-wa: #25d366;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --radius-pane: 1.125rem;
+
+  --shadow-pane: 0 1px 2px rgb(22 20 44 / 0.05), 0 10px 28px -14px rgb(22 20 44 / 0.18);
+  --shadow-flotante: 0 18px 48px -16px rgb(22 20 44 / 0.38), 0 2px 8px rgb(22 20 44 / 0.08);
+  --shadow-boton: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 -1px 0 rgb(0 0 0 / 0.18) inset, 0 6px 16px -8px rgb(55 42 132 / 0.7);
+  --shadow-vinilo: 0 1px 0 rgb(22 20 44 / 0.14), 0 0 0 0.5px rgb(22 20 44 / 0.06);
+
+  --animate-encendido: encendido 1100ms linear 1 both;
+  --animate-respirar: respirar 3.2s ease-in-out infinite;
+}
+
+@keyframes encendido {
+  /* Tubo fluorescente que arranca: titila y queda firme. Una sola vez por sesión. */
+  0% { opacity: 0.25; }
+  6% { opacity: 0.9; }
+  9% { opacity: 0.3; }
+  16% { opacity: 1; }
+  21% { opacity: 0.55; }
+  27% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes respirar {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes barrido {
+  from { transform: translateX(-120%) skewX(-18deg); }
+  to { transform: translateX(260%) skewX(-18deg); }
+}
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  from { background-position: -320px 0; }
+  to { background-position: 320px 0; }
+}
+
+/* ------------------------------------------------------------------ base -- */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    overflow-x: clip;
+    background-color: var(--color-vidrio);
+    color: var(--color-tinta);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-marca-200);
+    color: var(--color-marca-950);
+  }
+
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-marca-500);
+    outline-offset: 2px;
+  }
+
+  input,
+  textarea {
+    caret-color: var(--color-marca-600);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-tinta-3);
+    opacity: 1;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-aluminio-2) transparent;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-aluminio-2);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  /* Números de precios y tablas: siempre tabulares */
+  .tabular, table { font-variant-numeric: tabular-nums; }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
+}
+
+/* ------------------------------------------------------------ utilidades -- */
+
+/* Letras de vinilo de cartel: ancho expandido, versalitas firmes */
+@utility rotulo {
+  font-variation-settings: "wdth" 125;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+}
+
+@utility rotulo-medio {
+  font-variation-settings: "wdth" 112;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+
+@utility compacto {
+  font-variation-settings: "wdth" 88;
+}
+
+@utility sin-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@utility presionable {
+  transition: transform 160ms var(--ease-out);
+  &:active:not(:disabled) { transform: scale(0.97); }
+}
+
+/* ---------------------------------------------------------- componentes -- */
+@layer components {
+  /* Cartel de acrílico retroiluminado (cabecera, botones principales, medidor) */
+  .cartel {
+    position: relative;
+    isolation: isolate;
+    color: #fff;
+    background:
+      radial-gradient(70% 160% at 18% 50%, rgb(255 255 255 / 0.11), transparent 62%),
+      radial-gradient(70% 160% at 82% 50%, rgb(255 255 255 / 0.11), transparent 62%),
+      linear-gradient(180deg, #4c45a3 0%, var(--color-marca-700) 52%, #30247a 100%);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.22) inset,
+      0 -1px 0 rgb(0 0 0 / 0.28) inset,
+      0 14px 34px -16px rgb(55 42 132 / 0.75);
+  }
+
+  /* Difusor: leve granulado de acrílico opal */
+  .cartel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.9;
+  }
+
+  /* Capa de luz: es la que "enciende" (los textos nunca titilan) */
+  .cartel-luz {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(90% 120% at 50% -10%, rgb(164 169 218 / 0.45), transparent 60%);
+  }
+
+  .cartel[data-apagado="true"] .cartel-luz { opacity: 0.35; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cartel[data-encender="true"] .cartel-luz { animation: var(--animate-encendido); }
+  }
+
+  /* Vinilo autoadhesivo (calcos de OFERTA / NUEVO / TOP) */
+  .vinilo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-variation-settings: "wdth" 112;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+    font-size: 0.6875rem;
+    line-height: 1;
+    padding: 0.36em 0.55em 0.3em;
+    border-radius: 0.3rem;
+    box-shadow: var(--shadow-vinilo);
+    white-space: nowrap;
+  }
+  .vinilo-ambar { background: var(--color-ambar); color: var(--color-ambar-tinta); }
+  .vinilo-marca { background: var(--color-marca-700); color: #fff; }
+  .vinilo-blanco { background: #fff; color: var(--color-marca-800); }
+  .vinilo-tinta { background: var(--color-tinta); color: #fff; }
+  .vinilo-rojo { background: var(--color-rojo); color: #fff; }
+
+  /* Paño de vidriera: los productos viven dentro de un marco de aluminio,
+     separados por perfiles de 1px (no tarjetas con sombra). */
+  .vidriera {
+    position: relative;
+    border: 1px solid var(--color-aluminio);
+    border-radius: var(--radius-pane);
+    background: #fff;
+    overflow: hidden;
+  }
+  .vidriera-grilla {
+    display: grid;
+    margin: 0 -1px -1px 0;
+  }
+  .vidriera-grilla > * {
+    border-right: 1px solid var(--color-aluminio);
+    border-bottom: 1px solid var(--color-aluminio);
+  }
+
+  /* Reflejo de vidrio que cruza el paño al pasar el mouse */
+  .reflejo { position: relative; overflow: hidden; }
+  .reflejo::after {
+    content: "";
+    position: absolute;
+    top: -10%;
+    bottom: -10%;
+    left: 0;
+    width: 38%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+    transform: translateX(-120%) skewX(-18deg);
+    opacity: 0;
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .reflejo:hover::after {
+      opacity: 1;
+      animation: barrido 900ms var(--ease-out) 1;
+    }
+  }
+
+  /* Skeleton con brillo */
+  .esqueleto {
+    background: linear-gradient(90deg, var(--color-vidrio-2) 0, #f7f8fb 40%, var(--color-vidrio-2) 80%) 0 0 / 640px 100%;
+    animation: shimmer 1.4s linear infinite;
+    border-radius: 0.5rem;
+  }
+
+  .entrar { animation: subir 420ms var(--ease-out) both; }
+
+  /* Campo de formulario */
+  .campo {
+    width: 100%;
+    height: 3rem;
+    border-radius: 0.8rem;
+    border: 1px solid var(--color-aluminio-2);
+    background: #fff;
+    padding: 0 0.95rem;
+    font-size: 1rem;
+    color: var(--color-tinta);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .campo:hover { border-color: var(--color-tinta-3); }
+  .campo:focus { outline: none; border-color: var(--color-marca-500); box-shadow: 0 0 0 4px rgb(92 99 170 / 0.18); }
+  .campo[aria-invalid="true"] { border-color: var(--color-rojo); box-shadow: 0 0 0 4px rgb(207 52 52 / 0.12); }
+  textarea.campo { height: auto; min-height: 5.5rem; padding: 0.75rem 0.95rem; resize: vertical; }
+}
