@@ -132,8 +132,13 @@ function ordenar(lista: ProductoVista[], orden: OrdenCatalogo): ProductoVista[] 
     case "vendidos":
       return l.sort((a, b) => puntajeVendidos(b) - puntajeVendidos(a));
     default: {
+      // Con foto primero: un paño sin foto no vende. Después ofertas, más vendidos y novedades.
       const peso = (p: ProductoVista) =>
-        (p.oferta ? 4 : 0) + (p.ranking_vendidos != null || p.vendidos > 0 ? 3 : 0) + (p.es_novedad ? 2 : 0) - (p.agotado ? 10 : 0);
+        (p.imagenes.length ? 8 : 0) +
+        (p.oferta ? 4 : 0) +
+        (p.ranking_vendidos != null || p.vendidos > 0 ? 3 : 0) +
+        (p.es_novedad ? 2 : 0) -
+        (p.agotado ? 10 : 0);
       return l.sort((a, b) => peso(b) - peso(a) || b.creado_en.localeCompare(a.creado_en));
     }
   }
@@ -217,7 +222,10 @@ export async function obtenerNovedades(limite = 0): Promise<ProductoVista[]> {
     todos.filter((p) => p.es_novedad),
     "nuevos",
   );
-  return limite ? l.slice(0, limite) : l;
+  if (!limite) return l;
+  // Para vitrinas cortas (portada), solo las que tienen foto.
+  const conFoto = l.filter((p) => p.imagenes.length);
+  return (conFoto.length >= limite ? conFoto : l).slice(0, limite);
 }
 
 export async function obtenerDestacados(): Promise<ProductoVista[]> {
@@ -338,7 +346,7 @@ export async function obtenerSugeridos(): Promise<ProductoVista[]> {
   const vistos = new Set<string>();
   const out: ProductoVista[] = [];
   for (const p of [...vendidos, ...ofertas.filter((o) => !o.agotado && o.precio_final < 60000)]) {
-    if (vistos.has(p.id)) continue;
+    if (vistos.has(p.id) || !p.imagenes.length) continue;
     vistos.add(p.id);
     out.push(p);
   }

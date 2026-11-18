@@ -61,7 +61,10 @@ export default async function Inicio() {
               accion={`Ver las ${ofertas.length}`}
               className="px-1"
             />
-            <FilaVidriera productos={ofertas.slice(0, 12)} className="border-ambar-2/40" />
+            <FilaVidriera
+              productos={(ofertas.filter((p) => p.imagenes.length).length >= 6 ? ofertas.filter((p) => p.imagenes.length) : ofertas).slice(0, 12)}
+              className="border-ambar-2/40"
+            />
           </div>
         </section>
       )}
