@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
+import { SITIO } from "@/lib/sitio";
 
-const SITIO = process.env.NEXT_PUBLIC_SITIO_URL ?? "http://localhost:3000";
 
 export default function robots(): MetadataRoute.Robots {
   return {

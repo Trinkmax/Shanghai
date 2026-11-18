@@ -13,9 +13,9 @@ import { FichaRubro } from "@/components/ui/IconoRubro";
 import { obtenerConfig, obtenerProducto, obtenerRelacionados, obtenerSlugsPopulares } from "@/lib/datos/catalogo";
 import { formatARS } from "@/lib/format";
 import { urlImagen } from "@/lib/imagenes";
+import { SITIO } from "@/lib/sitio";
 
 type Params = Promise<{ slug: string }>;
-const SITIO = process.env.NEXT_PUBLIC_SITIO_URL ?? "http://localhost:3000";
 
 export async function generateStaticParams() {
   const slugs = await obtenerSlugsPopulares();

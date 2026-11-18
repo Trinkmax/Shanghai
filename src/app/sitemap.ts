@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { obtenerCategorias, obtenerTodos } from "@/lib/datos/catalogo";
+import { SITIO } from "@/lib/sitio";
 
-const SITIO = process.env.NEXT_PUBLIC_SITIO_URL ?? "http://localhost:3000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categorias, productos] = await Promise.all([obtenerCategorias(), obtenerTodos()]);

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { SITIO } from "@/lib/sitio";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -10,7 +11,6 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const SITIO = process.env.NEXT_PUBLIC_SITIO_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITIO),
