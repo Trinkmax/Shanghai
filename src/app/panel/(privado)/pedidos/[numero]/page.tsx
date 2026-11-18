@@ -9,6 +9,7 @@ import { formatARS, formatFechaHora, formatFechaLarga, formatTelefono, formatHor
 import { puede } from "@/lib/panel/permisos";
 import { requerirPerfil } from "@/lib/panel/sesion";
 import { createClient } from "@/lib/supabase/server";
+import { SITIO } from "@/lib/sitio";
 import { TEXTO_METODO_PAGO } from "@/lib/tienda";
 import { cn } from "@/lib/utils";
 
@@ -59,7 +60,7 @@ export default async function DetallePedido({ params }: { params: Promise<{ nume
           </span>
         }
         descripcion={
-          <span className="capitalize">
+          <span>
             {formatFechaLarga(p.creado_en)} · {formatHora(p.creado_en)} h
           </span>
         }
@@ -68,6 +69,7 @@ export default async function DetallePedido({ params }: { params: Promise<{ nume
       {puede(perfil.rol, "gestionar_pedidos") && (
         <div className="mb-5">
           <AccionesPedido
+            sitio={SITIO}
             pedido={{
               id: p.id,
               numero: p.numero,

@@ -36,3 +36,9 @@ export async function rangoFechas(r: Rango): Promise<{ desde: string; hasta: str
   }
   return { desde: inicioDia(sumarDias(hoy, -6)), hasta: inicioDia(manana), dias: 7 };
 }
+
+/** Hora actual para comparar vencimientos en pantallas con sesión (render de request). */
+export async function marcaDeTiempo(): Promise<number> {
+  await connection();
+  return Date.now();
+}

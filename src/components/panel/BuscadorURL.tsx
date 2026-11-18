@@ -2,7 +2,7 @@
 
 import { Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 
 /** Campo de búsqueda que escribe ?q= en la URL (con espera corta) y vuelve a la página 1. */
@@ -14,7 +14,14 @@ export function BuscadorURL({ placeholder, className, parametro = "q" }: { place
   const [pendiente, empezar] = useTransition();
   const t = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  useEffect(() => setTexto(params.get(parametro) ?? ""), [params, parametro]);
+  const [enfocado, setEnfocado] = useState(false);
+  // Si la URL cambia desde afuera (pestañas, atrás/adelante), el campo la refleja; mientras se tipea, no se pisa.
+  const actual = params.get(parametro) ?? "";
+  const [actualPrevio, setActualPrevio] = useState(actual);
+  if (actual !== actualPrevio) {
+    setActualPrevio(actual);
+    if (!enfocado) setTexto(actual);
+  }
 
   function aplicar(v: string) {
     const q = new URLSearchParams(params.toString());
@@ -42,6 +49,8 @@ export function BuscadorURL({ placeholder, className, parametro = "q" }: { place
             aplicar(texto);
           }
         }}
+        onFocus={() => setEnfocado(true)}
+        onBlur={() => setEnfocado(false)}
         placeholder={placeholder}
         className="campo h-11 pl-10 pr-10"
         aria-label={placeholder}

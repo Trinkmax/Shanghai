@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Isotipo } from "@/components/marca/Isotipo";
 import { BotonImprimir } from "@/components/panel/pedidos/BotonImprimir";
 import { formatARS, formatFechaHora, formatTelefono } from "@/lib/format";
+import { requerirPerfil } from "@/lib/panel/sesion";
 import { createClient } from "@/lib/supabase/server";
 import { TEXTO_ESTADO, TEXTO_METODO_PAGO, TEXTO_PAGO } from "@/lib/tienda";
 
@@ -13,6 +14,7 @@ type Direccion = { calle?: string; ciudad?: string; provincia?: string; cp?: str
 
 /** Remito / lista de preparación: hoja A4 lista para imprimir y tildar a mano. */
 export default async function Remito({ params }: { params: Promise<{ numero: string }> }) {
+  await requerirPerfil("ver_pedidos");
   const { numero } = await params;
   if (!/^\d+$/.test(numero)) notFound();
   const supabase = await createClient();

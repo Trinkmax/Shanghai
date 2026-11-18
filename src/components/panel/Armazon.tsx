@@ -170,7 +170,11 @@ function usePedidosEnVivo(inicial: number) {
     ruta.current = pathname;
   }, [pathname]);
 
-  useEffect(() => setPendientes(inicial), [inicial]);
+  const [inicialPrevio, setInicialPrevio] = useState(inicial);
+  if (inicial !== inicialPrevio) {
+    setInicialPrevio(inicial);
+    setPendientes(inicial);
+  }
 
   const recontar = useCallback(async () => {
     const sb = createClient();
@@ -230,7 +234,11 @@ export function Armazon({
   const pendientes = usePedidosEnVivo(pendientesIniciales);
   const [menu, setMenu] = useState(false);
   const pathname = usePathname();
-  useEffect(() => setMenu(false), [pathname]);
+  const [rutaPrevia, setRutaPrevia] = useState(pathname);
+  if (pathname !== rutaPrevia) {
+    setRutaPrevia(pathname);
+    setMenu(false);
+  }
 
   const rapidos = useMemo(
     () =>

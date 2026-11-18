@@ -57,7 +57,9 @@ export function GraficoVentas({ datos }: { datos: Dia[] }) {
         </ResponsiveContainer>
       </div>
       {vacio && (
-        <p className="absolute inset-x-0 top-[38%] text-center text-[0.92rem] text-tinta-3">Todavía no hay ventas confirmadas en este período.</p>
+        <p className="absolute inset-x-6 top-[36%] mx-auto w-fit rounded-xl bg-white/95 px-4 py-2.5 text-center text-[0.92rem] text-tinta-3 shadow-[0_0_0_1px_var(--color-aluminio)]">
+          Todavía no hay ventas confirmadas en este período.
+        </p>
       )}
       <table className="sr-only">
         <caption>Ventas por día</caption>

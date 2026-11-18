@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { connection } from "next/server";
 import { GestorOfertas, type ProductoEnOferta } from "@/components/panel/ofertas/GestorOfertas";
 import { TituloPagina } from "@/components/panel/ui";
+import { marcaDeTiempo } from "@/lib/panel/fechas";
 import { requerirPerfil } from "@/lib/panel/sesion";
 import { createClient } from "@/lib/supabase/server";
 
@@ -19,8 +19,7 @@ export default async function Ofertas() {
     .or("en_oferta.eq.true,precio_oferta.not.is.null")
     .order("nombre");
   if (error) throw new Error(error.message);
-  await connection();
-  const ahora = Date.now();
+  const ahora = await marcaDeTiempo();
   const ofertas: ProductoEnOferta[] = (data ?? []).map((o) => ({
     ...o,
     precio: Number(o.precio),

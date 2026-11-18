@@ -50,7 +50,6 @@ export function Mostrador() {
   }, []);
 
   const resultados = useMemo(() => (indice && consulta.trim() ? buscar(indice, consulta, 8) : []), [indice, consulta]);
-  useEffect(() => setSel(0), [consulta]);
 
   const subtotal = ticket.reduce((t, r) => t + r.item.p * r.cantidad, 0);
   const desc = Math.min(descuento ?? 0, subtotal);
@@ -135,7 +134,10 @@ export function Mostrador() {
             <input
               ref={entrada}
               value={consulta}
-              onChange={(e) => setConsulta(e.target.value)}
+              onChange={(e) => {
+                setConsulta(e.target.value);
+                setSel(0);
+              }}
               onKeyDown={(e) => {
                 if (e.key === "ArrowDown") {
                   e.preventDefault();

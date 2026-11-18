@@ -53,7 +53,7 @@ export function BotonSiguiente({ pedido, compacto = false }: { pedido: Pedido; c
   );
 }
 
-export function AccionesPedido({ pedido, direccion }: { pedido: Pedido; direccion: string }) {
+export function AccionesPedido({ pedido, direccion, sitio }: { pedido: Pedido; direccion: string; sitio?: string }) {
   const confirmar = useConfirmar();
   const [pendiente, empezar] = useTransition();
   const cancelado = pedido.estado === "cancelado";
@@ -93,7 +93,7 @@ export function AccionesPedido({ pedido, direccion }: { pedido: Pedido; direccio
   }
 
   const wa = pedido.cliente_telefono
-    ? linkWhatsApp(pedido.cliente_telefono, mensajeWhatsApp({ ...pedido, direccion }))
+    ? linkWhatsApp(pedido.cliente_telefono, mensajeWhatsApp({ ...pedido, direccion, sitio }))
     : null;
 
   return (

@@ -44,9 +44,11 @@ export function mensajeWhatsApp(p: {
   total: number;
   token: string;
   direccion?: string;
+  /** URL pública de la tienda (la resuelve el servidor: variable o dominio de Vercel). */
+  sitio?: string;
 }) {
   const nombre = p.cliente_nombre.split(" ")[0];
-  const sitio = process.env.NEXT_PUBLIC_SITIO_URL ?? "";
+  const sitio = (p.sitio ?? process.env.NEXT_PUBLIC_SITIO_URL ?? "").replace(/\/$/, "");
   const link = sitio ? `\nSeguilo acá: ${sitio}/pedido/${p.token}` : "";
   const total = formatARS(p.total);
   let cuerpo: string;

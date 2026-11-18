@@ -41,11 +41,16 @@ const fechaHora = new Intl.DateTimeFormat("es-AR", {
   month: "short",
   hour: "2-digit",
   minute: "2-digit",
+  hourCycle: "h23",
 });
-const hora = new Intl.DateTimeFormat("es-AR", { timeZone: TZ_AR, hour: "2-digit", minute: "2-digit" });
+const hora = new Intl.DateTimeFormat("es-AR", { timeZone: TZ_AR, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 
 export const formatFechaCorta = (d: string | Date) => fechaCorta.format(new Date(d)).replace(".", "");
-export const formatFechaLarga = (d: string | Date) => fechaLarga.format(new Date(d));
+/** "Miércoles 18 de noviembre" (mayúscula solo al principio, como se escribe en castellano). */
+export const formatFechaLarga = (d: string | Date) => {
+  const t = fechaLarga.format(new Date(d)).replace(",", "");
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
 export const formatFechaHora = (d: string | Date) => fechaHora.format(new Date(d)).replace(".", "");
 export const formatHora = (d: string | Date) => hora.format(new Date(d));
 
