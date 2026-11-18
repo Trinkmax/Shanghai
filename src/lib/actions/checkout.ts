@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { esquemaPedido } from "@/lib/pedido-esquema";
 import { ok, type ActionResult } from "./result";
@@ -39,6 +40,8 @@ export async function confirmarPedido(datos: unknown): Promise<ActionResult<Pedi
   if (!r.success) return { ok: false, error: r.error.issues[0]?.message ?? "Revisá los datos del pedido." };
   const { ok: bien, d } = await llamar({ accion: "crear", ...r.data, origen: await origenDelPedido() });
   if (!bien || !d) return { ok: false, error: (d?.error as string) ?? "No pudimos registrar el pedido. Probá de nuevo." };
+  // Stock y "más vendidos" cambian con los pedidos: el catálogo se refresca en segundo plano.
+  revalidateTag("catalogo", "max");
   return ok({
     token: String(d.token),
     numero: Number(d.numero),

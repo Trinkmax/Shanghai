@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Isotipo } from "@/components/marca/Isotipo";
 import { Boton } from "@/components/ui/Boton";
 import { ImagenProducto } from "@/components/ui/ImagenProducto";
+import { cargarIndice } from "@/hooks/useIndice";
 import { confirmarPedido } from "@/lib/actions/checkout";
 import { subtotalDe, unidadesDe, useCarrito, useCarritoHidratado } from "@/lib/carrito";
 import { formatARS, plural } from "@/lib/format";
@@ -244,7 +245,30 @@ export function Checkout() {
     }
 
     iniciar(async () => {
-      const res = await confirmarPedido(payload);
+      // Último control: si cambió algún precio o se agotó algo, avisamos antes de cobrar otro total.
+      try {
+        const indice = await cargarIndice(true);
+        const mapa = new Map(indice.map((x) => [x.i, { p: x.p, l: x.l, x: x.x, q: x.q }] as const));
+        const vigentes = new Map(items.map((it) => [it.id, mapa.get(it.id) ?? null] as const));
+        const { cambios, quitados } = useCarrito.getState().sincronizar(vigentes);
+        if (cambios.length || quitados.length) {
+          const msj = [
+            cambios.length ? `Actualizamos ${cambios.length === 1 ? "un precio" : `${cambios.length} precios`}` : "",
+            quitados.length ? `sacamos lo que ya no está disponible (${quitados.join(", ")})` : "",
+          ]
+            .filter(Boolean)
+            .join(" y ");
+          setErrorGeneral(`${msj}. Revisá el total y volvé a confirmar.`);
+          toast.warning("Revisá tu pedido antes de confirmar");
+          return;
+        }
+      } catch {
+        /* sin índice: la base igual valida precios y stock */
+      }
+      const res = await confirmarPedido(useCarrito.getState().items.length ? {
+        ...payload,
+        items: useCarrito.getState().items.map((i) => ({ producto_id: i.id, cantidad: i.cantidad })),
+      } : payload);
       if (!res.ok) {
         setErrorGeneral(res.error);
         toast.error(res.error);
